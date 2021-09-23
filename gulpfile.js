@@ -1,24 +1,15 @@
 
-// var gulp = require('gulp');
-// var sass = require('gulp-sass')(require('sass'));
 
-// gulp.task('sass', function (){
-//   return gulp.src('src/scss/**/*.scss')
-//     .pipe(sass().on('error', sass.logError))
-//     .pipe(gulp.dest('build/css'));
-// });
-
-
-// gulp.task('sass:watch', function () {
-//   gulp.watch('src/scss/**/*.scss', ['sass']);
-// });
-
-
-// const gulp = require('gulp')
 const { src, dest, watch, series} = require('gulp');
+
+// CSS y SASS
 const sass = require('gulp-sass')(require('sass'));
-const postcss = require('gulp-postcss')
-const autoprefixer = require('autoprefixer')
+const postcss = require('gulp-postcss');
+const autoprefixer = require('autoprefixer');
+
+// Imagenes
+// const imagemin = require('gulp-imagemin');
+const webp = require ('gulp-webp')
 
 
 function css (done) {
@@ -31,13 +22,27 @@ function css (done) {
     done();
 }
 
+function imagenes () {
+    return src ('src/img/**/*')
+    // .pipe( imagemin ({optimizationLevel: 3}))
+    .pipe(dest('build/img'))
+}
+
+function versionWebp () {
+    return src ('src/img/**/*.{png,jpg}')
+        .pipe(webp())
+        .pipe(dest('build/img'))
+}
+
 
 function dev() {
     watch( 'src/scss/**/*.scss', css)
-    // done()
+    watch( 'src/img/**/*', imagenes)
 }
 
 
 exports.css = css;
 exports.dev = dev;
-exports.default = series( css, dev)
+exports.imagenes = imagenes;
+exports.versionWebp = versionWebp;
+exports.default = series(imagenes, versionWebp, css, dev)
