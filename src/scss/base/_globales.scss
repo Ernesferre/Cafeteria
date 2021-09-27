@@ -12,7 +12,8 @@ html {
 body {
     font-family: v.$fuenteSecundaria;
     font-size: 6rem;
-    background-color: v.$secundario ;
+    background-color: v.$cafeClaro ;
+    
 
 }
 
@@ -31,6 +32,7 @@ p {
 a {
     text-decoration: none;
     font-size: 2rem;
+    color: v.$negro;
 }
 
 img {
